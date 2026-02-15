@@ -1,0 +1,152 @@
+{
+  "organization": {
+    "name": "THE AGENCY",
+    "fullName": "Association of Gaming and Educational Nexus of Cyprus",
+    "logo": "/images/logo-placeholder.png",
+    "tagline": "Official esports federation initiative in Cyprus"
+  },
+  "seo": {
+    "title": "THE AGENCY | Association of Gaming and Educational Nexus of Cyprus",
+    "description": "THE AGENCY is building Cyprus' institutional esports future through governance, education, and competitive development.",
+    "ogImage": "/images/hero-placeholder.jpg",
+    "keywords": [
+      "Cyprus esports federation",
+      "THE AGENCY",
+      "gaming association Cyprus",
+      "esports governance"
+    ]
+  },
+  "navigation": [
+    { "label": "Who We Are", "href": "#who-we-are" },
+    { "label": "Our Vision", "href": "#our-vision" },
+    { "label": "Team", "href": "#team" },
+    { "label": "Partners", "href": "#partners" }
+  ],
+  "hero": {
+    "badge": "Official Federation Initiative",
+    "title": "Institutional Esports Leadership for Cyprus",
+    "subtitle": "Building a nationally recognized federation that develops talent, promotes fair play, and advances educational impact through gaming.",
+    "ctaLabel": "Explore The Mission",
+    "ctaHref": "#who-we-are",
+    "image": "/images/hero-placeholder.jpg"
+  },
+  "whoWeAre": {
+    "title": "WHO WE ARE",
+    "text": "THE AGENCY unites players, organizers, educators, and industry professionals into one structured federation initiative. We operate with institutional discipline to support Cyprus esports through governance standards, event frameworks, and community development.",
+    "image": "/images/about-placeholder.jpg"
+  },
+  "vision": {
+    "title": "OUR VISION",
+    "image": "/images/vision-placeholder.jpg",
+    "items": [
+      {
+        "title": "Attack",
+        "description": "Establish a reliable competitive ecosystem with official leagues, transparent rules, and long-term player pathways."
+      },
+      {
+        "title": "Defend",
+        "description": "Represent Cyprus in regional and international esports circles while enforcing integrity, professionalism, and inclusion."
+      },
+      {
+        "title": "Heal",
+        "description": "Educate families, schools, and institutions on balanced gaming culture, digital skills, and responsible growth."
+      }
+    ]
+  },
+  "journey": {
+    "title": "OUR JOURNEY",
+    "image": "/images/journey-placeholder.jpg",
+    "milestones": [
+      {
+        "year": "2024",
+        "title": "Founded",
+        "description": "THE AGENCY launched as a unified initiative for Cyprus esports governance and growth."
+      },
+      {
+        "year": "2025",
+        "title": "National Expansion",
+        "description": "Expanded collaborative programs with tournament operators, creators, and educational partners."
+      },
+      {
+        "year": "2026",
+        "title": "Federation Status Track",
+        "description": "Progressed institutional frameworks toward official federation-grade representation."
+      }
+    ]
+  },
+  "team": {
+    "title": "TEAM",
+    "members": [
+      {
+        "name": "Alex Andreou",
+        "role": "BUSINESS TANK",
+        "description": "Leads organizational strategy, partnership development, and operational execution for THE AGENCY.",
+        "image": "/images/team-alex-andreou.jpg",
+        "imageZoom": 0.88
+      },
+      {
+        "name": "Alex Georgiou",
+        "role": "Community Mage",
+        "description": "Builds community operations, event communications, and player-facing engagement initiatives.",
+        "image": "/images/team-alex-georgiou.jpg",
+        "imageZoom": 1.18
+      },
+      {
+        "name": "JOHN THEOPHANOUS",
+        "role": "CREATIVE WIZARD",
+        "description": "Designs institutional media identity, campaign visuals, and federation storytelling systems.",
+        "image": "/images/team-john.jpg"
+      },
+      {
+        "name": "NIK POPOV",
+        "role": "TECH DPS",
+        "description": "Develops event production frameworks, platform reliability, and tournament technical standards.",
+        "image": "/images/team-nik.jpg"
+      },
+      {
+        "name": "ZAC SPYROU",
+        "role": "PR MEDIC",
+        "description": "Leads public communication, sponsor narratives, and strategic media representation.",
+        "image": "/images/team-zac.jpg"
+      }
+    ]
+  },
+  "partners": {
+    "title": "PARTNERS & SPONSORS",
+    "items": [
+      {
+        "name": "",
+        "logo": "/images/partner-gamers-united.png",
+        "href": "https://www.gamersunited.cy/"
+      },
+      {
+        "name": "",
+        "logo": "/images/partner-cyprus-gamer.png",
+        "href": "https://www.cyprusgamer.com/"
+      },
+      {
+        "name": "",
+        "logo": "/images/partner-fitsquare.png",
+        "href": "https://www.instagram.com/fit_square_?igsh=MXE0NnIwMW1zZHhodQ=="
+      },
+      {
+        "name": "",
+        "logo": "/images/partner-digital-media.png",
+        "href": "https://honestcontentcy.com/"
+      }
+    ]
+  },
+  "footer": {
+    "contactTitle": "Contact",
+    "socialTitle": "Social",
+    "email": "contact@agencyesportsclub.cy",
+    "phone": "",
+    "address": "Nicosia, Cyprus",
+    "copyright": "THE AGENCY. All rights reserved.",
+    "socials": [
+      { "label": "Instagram", "href": "https://www.instagram.com/agencyesportsclub/" },
+      { "label": "YouTube", "href": "https://www.youtube.com/@AgencyEsportsClub" },
+      { "label": "Discord", "href": "https://discord.gg/jvpdGQEKzG" }
+    ]
+  }
+}
