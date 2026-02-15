@@ -2,6 +2,9 @@
 
 Official federation-grade esports website for **THE AGENCY** (Association of Gaming and Educational Nexus of Cyprus), built with Next.js 14 App Router, TypeScript strict mode, Tailwind CSS, JSON content management, and Docker.
 
+<img width="1577" height="1005" alt="image" src="https://github.com/user-attachments/assets/5af8e7f6-39c8-475d-8e0d-8475860be90f" />
+
+
 ## Stack
 
 - Next.js 14 (App Router)
