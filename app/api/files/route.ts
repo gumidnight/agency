@@ -95,7 +95,7 @@ export async function GET(request: Request) {
         files,
         count: files.length,
         truncated: listed.truncated,  // true if more files exist
-        cursor: listed.cursor         // Use for pagination
+        cursor: listed.truncated ? listed.cursor : undefined  // Use for pagination
       });
     }
   } catch (error) {
