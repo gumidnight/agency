@@ -15,62 +15,31 @@
  * and type checking.
  */
 
-// Import Cloudflare Workers types
-// These provide the full type definitions for D1Database, R2Bucket, etc.
-
 /**
  * CloudflareEnv represents all bindings available in your Cloudflare Worker.
  * These MUST match what you defined in wrangler.toml!
  */
-export interface CloudflareEnv {
-  // ==========================================================================
-  // D1 DATABASE
-  // ==========================================================================
-  // Binding name from wrangler.toml: [[d1_databases]] binding = "DB"
-  // Usage: const result = await env.DB.prepare("SELECT * FROM users").all();
+interface CloudflareEnv {
+  // D1 DATABASE - binding from wrangler.toml: [[d1_databases]] binding = "DB"
   DB: D1Database;
 
-  // ==========================================================================
-  // R2 STORAGE BUCKET
-  // ==========================================================================
-  // Binding name from wrangler.toml: [[r2_buckets]] binding = "BUCKET"
-  // Usage: await env.BUCKET.put("file.pdf", data);
+  // R2 STORAGE BUCKET - binding from wrangler.toml: [[r2_buckets]] binding = "BUCKET"
   BUCKET: R2Bucket;
 
-  // ==========================================================================
-  // ENVIRONMENT VARIABLES
-  // ==========================================================================
-  // From wrangler.toml [vars] section or secrets added via:
-  // npx wrangler pages secret put SECRET_NAME
+  // ENVIRONMENT VARIABLES from wrangler.toml [vars]
   ENVIRONMENT: string;
-
-  // Add your secrets here (don't commit actual values!)
-  // API_KEY?: string;
-  // DATABASE_URL?: string;
 }
 
-/**
- * HOW TO ACCESS ENV IN NEXT.JS API ROUTES:
- * 
- * In your route.ts files, use getRequestContext():
- * 
- * ```typescript
- * import { getRequestContext } from '@cloudflare/next-on-pages';
- * 
- * export const runtime = 'edge';
- * 
- * export async function GET() {
- *   const { env } = getRequestContext();
- *   
- *   // Now env is typed with CloudflareEnv
- *   const result = await env.DB.prepare("SELECT * FROM users").all();
- *   
- *   return Response.json(result);
- * }
- * ```
- */
+// Augment the @cloudflare/next-on-pages module to use our CloudflareEnv
+declare module '@cloudflare/next-on-pages' {
+  export function getRequestContext(): {
+    env: CloudflareEnv;
+    ctx: ExecutionContext;
+    cf: CfProperties;
+  };
+}
 
-// Extend the global type so getRequestContext() returns our CloudflareEnv
+// Extend the global type
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
