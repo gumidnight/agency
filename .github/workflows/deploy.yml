@@ -86,13 +86,10 @@ jobs:
       # STEP 3: Install Dependencies
       # -----------------------------------------------------------------------
       # WHY? We need all packages before building
-      # Using 'npm ci' instead of 'npm install' for:
-      #   - Faster installs (skips resolution)
-      #   - Exact versions from package-lock.json
-      #   - Clean install (removes node_modules first)
+      # Using --legacy-peer-deps to handle peer dependency conflicts
       - name: Install dependencies
         working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       # -----------------------------------------------------------------------
       # STEP 4: Build for Cloudflare Pages
