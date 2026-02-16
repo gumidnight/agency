@@ -111,7 +111,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     // Parse JSON body from request
-    const body = await request.json();
+    const body = await request.json() as { name?: string };
     
     // Validate input
     const name = body.name || 'Anonymous';

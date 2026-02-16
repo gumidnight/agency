@@ -94,7 +94,7 @@ export async function POST(request: Request) {
 
   try {
     // Parse request body
-    const body = await request.json();
+    const body = await request.json() as { email?: string; name?: string };
     const { email, name } = body;
 
     // Validate required fields
@@ -145,7 +145,7 @@ export async function PUT(request: Request) {
   const { env } = getRequestContext();
 
   try {
-    const body = await request.json();
+    const body = await request.json() as { id?: number; name?: string; email?: string };
     const { id, name, email } = body;
 
     if (!id) {
