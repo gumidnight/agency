@@ -1,0 +1,140 @@
+# =============================================================================
+# CLOUDFLARE PAGES DEPLOYMENT WORKFLOW
+# =============================================================================
+#
+# WHAT IS THIS FILE?
+# This is a GitHub Actions workflow that automatically deploys your Next.js
+# site to Cloudflare Pages whenever you push to the main branch.
+#
+# THE FLOW:
+# VS Code → Git Push → GitHub detects push → Runs this workflow →
+# Installs dependencies → Builds Next.js → Deploys to Cloudflare Pages → Live!
+#
+# REQUIRED SECRETS (set in GitHub repo settings):
+#   - CLOUDFLARE_API_TOKEN: API token with Pages permissions
+#   - CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
+#
+# =============================================================================
+
+name: Deploy to Cloudflare Pages
+
+# =============================================================================
+# TRIGGER: When should this workflow run?
+# =============================================================================
+on:
+  # Run on push to main branch
+  push:
+    branches:
+      - main
+
+  # Run on pull requests to main (for preview deployments)
+  pull_request:
+    branches:
+      - main
+
+  # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+
+# =============================================================================
+# PERMISSIONS: What can this workflow do?
+# =============================================================================
+# Required for GitHub to interact with the workflow
+permissions:
+  contents: read            # Read repository files
+  deployments: write        # Create deployment status
+  pull-requests: write      # Comment on PRs (optional)
+
+# =============================================================================
+# JOBS: The actual work to do
+# =============================================================================
+jobs:
+  # ---------------------------------------------------------------------------
+  # BUILD AND DEPLOY JOB
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest  # Use latest Ubuntu runner
+
+    # Environment variables available to all steps
+    env:
+      # Directory where the project lives (if in subfolder)
+      # Change this if your project is in a subdirectory
+      WORKING_DIRECTORY: .
+
+    steps:
+      # -----------------------------------------------------------------------
+      # STEP 1: Checkout Code
+      # -----------------------------------------------------------------------
+      # WHY? GitHub Actions runs on a fresh VM. We need to download our code.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      # STEP 2: Setup Node.js
+      # -----------------------------------------------------------------------
+      # WHY? We need Node.js to run npm commands
+      # Using Node 20 (LTS) for best compatibility
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # Cache npm dependencies for faster subsequent builds
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      # -----------------------------------------------------------------------
+      # STEP 3: Install Dependencies
+      # -----------------------------------------------------------------------
+      # WHY? We need all packages before building
+      # Using 'npm ci' instead of 'npm install' for:
+      #   - Faster installs (skips resolution)
+      #   - Exact versions from package-lock.json
+      #   - Clean install (removes node_modules first)
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci
+
+      # -----------------------------------------------------------------------
+      # STEP 4: Build for Cloudflare Pages
+      # -----------------------------------------------------------------------
+      # WHY? @cloudflare/next-on-pages converts Next.js output to 
+      #      Cloudflare Pages format
+      - name: Build project for Cloudflare Pages
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run pages:build
+        env:
+          # Add any build-time environment variables here
+          NEXT_PUBLIC_SITE_URL: https://agency.pages.dev
+
+      # -----------------------------------------------------------------------
+      # STEP 5: Deploy to Cloudflare Pages
+      # -----------------------------------------------------------------------
+      # WHY? This is the magic step that uploads to Cloudflare!
+      # Uses the official Cloudflare Pages GitHub Action
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # The wrangler command to run
+          command: pages deploy .vercel/output/static --project-name=agency
+          workingDirectory: ${{ env.WORKING_DIRECTORY }}
+
+# =============================================================================
+# WHAT HAPPENS AFTER DEPLOYMENT?
+# =============================================================================
+# 
+# 1. Cloudflare assigns a URL to your deployment:
+#    - Production (main branch): https://agency.pages.dev
+#    - Preview (PR/branch): https://<commit-hash>.agency.pages.dev
+#
+# 2. You can see the deployment URL in:
+#    - GitHub Actions job output
+#    - Cloudflare Dashboard → Pages → agency → Deployments
+#
+# 3. Custom domains:
+#    - Go to Cloudflare Dashboard → Pages → agency → Custom domains
+#    - Add your domain (e.g., www.yoursite.com)
+#    - Cloudflare automatically provisions SSL certificate
+#
+# =============================================================================

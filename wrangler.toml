@@ -1,0 +1,123 @@
+# ============================================================================
+# WRANGLER.TOML - Cloudflare Configuration File
+# ============================================================================
+# 
+# WHAT IS THIS FILE?
+# Think of wrangler.toml as package.json but for Cloudflare services.
+# It tells Cloudflare:
+#   - What your project is called
+#   - What databases to connect
+#   - What storage buckets to use
+#   - How to build your project
+#
+# IMPORTANT: Some IDs below are placeholders. You'll fill them in after
+# creating the actual D1 database and R2 bucket in Cloudflare dashboard.
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# BASIC PROJECT CONFIGURATION
+# -----------------------------------------------------------------------------
+
+# Your project name - must be lowercase, no spaces
+# This becomes part of your URL: https://agency.pages.dev
+name = "agency"
+
+# Compatibility date - locks which Cloudflare runtime features are available
+# Using a recent date ensures you have latest features
+# See: https://developers.cloudflare.com/workers/configuration/compatibility-dates/
+compatibility_date = "2024-12-01"
+
+# Compatibility flags - enable specific runtime behaviors
+# nodejs_compat: Allows Node.js APIs (required for many npm packages)
+compatibility_flags = ["nodejs_compat"]
+
+# -----------------------------------------------------------------------------
+# CLOUDFLARE PAGES CONFIGURATION
+# -----------------------------------------------------------------------------
+
+[pages]
+# Build output directory - where @cloudflare/next-on-pages puts the built site
+# DON'T CHANGE THIS - it's the standard output location
+build_output_dir = ".vercel/output/static"
+
+# -----------------------------------------------------------------------------
+# D1 DATABASE BINDINGS
+# -----------------------------------------------------------------------------
+# 
+# WHAT IS D1?
+# D1 is Cloudflare's serverless SQL database (SQLite-based).
+# It's perfect for:
+#   - User data, settings
+#   - Blog posts, comments
+#   - Any structured data
+#
+# HOW TO CREATE A D1 DATABASE:
+# 1. Install Wrangler globally: npm install -g wrangler
+# 2. Login to Cloudflare: npx wrangler login
+# 3. Create database: npx wrangler d1 create agency-db
+# 4. Copy the database_id from output and paste below
+#
+# WHY "binding_name = DB"?
+# This is how you access the database in your code:
+#   const result = await env.DB.prepare("SELECT * FROM users").all();
+# -----------------------------------------------------------------------------
+
+[[d1_databases]]
+binding = "DB"                              # Access via env.DB in your code
+database_name = "agency-db"                 # Human-readable name
+database_id = "1c5210cd-4ca0-4353-9896-214b646fc93d"
+
+# -----------------------------------------------------------------------------
+# R2 STORAGE BINDINGS
+# -----------------------------------------------------------------------------
+#
+# WHAT IS R2?
+# R2 is Cloudflare's object storage (like AWS S3 but with zero egress fees).
+# Perfect for:
+#   - User uploads (images, documents)
+#   - Static assets
+#   - Backups
+#
+# HOW TO CREATE AN R2 BUCKET:
+# 1. Login: npx wrangler login
+# 2. Create bucket: npx wrangler r2 bucket create agency-uploads
+#
+# WHY "binding = BUCKET"?
+# This is how you access storage in your code:
+#   await env.BUCKET.put("file.pdf", fileData);
+#   const file = await env.BUCKET.get("file.pdf");
+# -----------------------------------------------------------------------------
+
+[[r2_buckets]]
+binding = "BUCKET"                          # Access via env.BUCKET in your code
+bucket_name = "agency-uploads"              # Must match the bucket you created
+
+# -----------------------------------------------------------------------------
+# ENVIRONMENT VARIABLES
+# -----------------------------------------------------------------------------
+#
+# Define environment variables your app needs.
+# SECURITY: Don't put secrets here! Use:
+#   npx wrangler pages secret put SECRET_NAME
+#
+# These are safe for non-sensitive config only.
+# -----------------------------------------------------------------------------
+
+[vars]
+ENVIRONMENT = "production"
+# Add other non-sensitive environment variables here
+
+# -----------------------------------------------------------------------------
+# LOCAL DEVELOPMENT SETTINGS (optional)
+# -----------------------------------------------------------------------------
+#
+# These settings only apply when running locally with:
+#   npm run preview
+#
+# They let you test with local versions of D1 and R2.
+# -----------------------------------------------------------------------------
+
+# Uncomment below for local development with persistent local D1
+# [dev]
+# port = 8788
+# local_protocol = "http"
