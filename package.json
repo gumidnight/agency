@@ -19,12 +19,12 @@
     "deploy": "npm run pages:build && npx wrangler pages deploy .vercel/output/static"
   },
   "dependencies": {
-    "next": "15.1.0",
+    "next": "15.5.14",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.6",
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@cloudflare/workers-types": "^4.20241218.0",
     "@types/node": "20.17.24",
     "@types/react": "18.3.23",
